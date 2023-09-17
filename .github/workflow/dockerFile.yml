@@ -1,0 +1,24 @@
+name: Node CI # workflow 이름
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+#
+jobs:
+  build:
+    runs-on: ubuntu-latest # 실행할 운영체제
+
+    strategy:
+      matrix:
+        node-version: [ 14.x, 16.x, 18.x, 20.x ] # 각 버전에 문제 없는지 확인하는 작업
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
